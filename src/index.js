@@ -17,25 +17,27 @@ const btnLoadMore = document.querySelector('.load');
 ///////////////////////////////////MAIN-SUBMIT//////////////////////
 fromEl.addEventListener('submit', onSubmitSearch);
 async function onSubmitSearch(evnt) {
+  btnLoadMore.classList.add('isHidden');
   evnt.preventDefault();
   page = 1;
   galleryEl.innerHTML = '';
   input = evnt.currentTarget.elements.searchQuery.value;
-  {
-    try {
-      if (input && input !== ' ') {
-        const get = await fetchGet(input, page);
-        galleryEl.insertAdjacentHTML('beforeend', createElForDoom(get.hits));
-        totalImg = get.totalHits;
-        Notiflix.Notify.success(`Hooray! We found ${get.totalHits} images.`);
-        modal.refresh();
-        btnLoadMore.classList.remove('isHidden');
-      }
-    } catch (error) {
-      Notiflix.Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-    }
+  if (!input || input === ' ') {
+    Notiflix.Notify.failure('You must to include something');
+    evnt.currentTarget.reset();
+    return;
+  }
+  try {
+    const get = await fetchGet(input, page);
+    galleryEl.insertAdjacentHTML('beforeend', createElForDoom(get.hits));
+    totalImg = get.totalHits;
+    Notiflix.Notify.success(`Hooray! We found ${get.totalHits} images.`);
+    modal.refresh();
+    btnLoadMore.classList.remove('isHidden');
+  } catch (error) {
+    Notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
   }
 }
 /////////////////////////////////LOADMORE//////////////////////
