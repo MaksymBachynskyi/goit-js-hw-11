@@ -31,6 +31,12 @@ async function onSubmitSearch(evnt) {
     const get = await fetchGet(input, page);
     galleryEl.insertAdjacentHTML('beforeend', createMarkup(get.hits));
     totalImg = get.totalHits;
+    if (!get.totalHits) {
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    }
     Notiflix.Notify.success(`Hooray! We found ${get.totalHits} images.`);
     modal.refresh();
     btnLoadMore.classList.remove('isHidden');
