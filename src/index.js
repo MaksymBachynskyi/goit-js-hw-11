@@ -2,6 +2,7 @@ import { fetchGet, createElForDoom } from './fetch';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
+
 /////////////////////////START//////////////////////
 let modal = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -60,5 +61,3 @@ async function onLoadMore() {
     );
   }
 }
-
-
