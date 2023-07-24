@@ -23,12 +23,14 @@ async function onSubmitSearch(evnt) {
   input = evnt.currentTarget.elements.searchQuery.value;
   {
     try {
-      const get = await fetchGet(input, page);
-      galleryEl.insertAdjacentHTML('beforeend', createElForDoom(get.hits));
-      totalImg = get.totalHits;
-      Notiflix.Notify.success(`Hooray! We found ${get.totalHits} images.`);
-      modal.refresh();
-      btnLoadMore.classList.remove('isHidden');
+      if (input && input !== ' ') {
+        const get = await fetchGet(input, page);
+        galleryEl.insertAdjacentHTML('beforeend', createElForDoom(get.hits));
+        totalImg = get.totalHits;
+        Notiflix.Notify.success(`Hooray! We found ${get.totalHits} images.`);
+        modal.refresh();
+        btnLoadMore.classList.remove('isHidden');
+      }
     } catch (error) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
