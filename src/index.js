@@ -1,4 +1,4 @@
-import { fetchGet, createElForDoom } from './fetch';
+import { fetchGet, createMarkup } from './fetch';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
@@ -29,7 +29,7 @@ async function onSubmitSearch(evnt) {
   }
   try {
     const get = await fetchGet(input, page);
-    galleryEl.insertAdjacentHTML('beforeend', createElForDoom(get.hits));
+    galleryEl.insertAdjacentHTML('beforeend', createMarkup(get.hits));
     totalImg = get.totalHits;
     Notiflix.Notify.success(`Hooray! We found ${get.totalHits} images.`);
     modal.refresh();
@@ -47,7 +47,7 @@ async function onLoadMore() {
   btnLoadMore.classList.add('isHidden');
   try {
     const get = await fetchGet(input, page);
-    galleryEl.insertAdjacentHTML('beforeend', createElForDoom(get.hits));
+    galleryEl.insertAdjacentHTML('beforeend', createMarkup(get.hits));
     totalImg -= 40;
 
     modal.refresh();

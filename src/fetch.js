@@ -15,8 +15,9 @@ const fetchGet = async function (searchValue, page) {
   const { data } = a;
   return data;
 };
-/////////////////////////////////CREATE-ELEMET-HTML///////////////////////
-function createElForDoom(a) {
+////////////////////////BASIC-MARKUP////////////////////
+
+function createMarkup(a) {
   return a
     .map(
       ({
@@ -28,30 +29,7 @@ function createElForDoom(a) {
         likes,
         largeImageURL,
       } = {}) => {
-        return createMarkup(
-          webformatURL,
-          tags,
-          views,
-          comments,
-          downloads,
-          likes,
-          largeImageURL
-        );
-      }
-    )
-    .join('');
-}
-////////////////////////BASIC-MARKUP////////////////////
-function createMarkup(
-  webformatURL,
-  tags,
-  views,
-  comments,
-  downloads,
-  likes,
-  largeImageURL
-) {
-  return ` <div class="photo-card"><a class="gallery__link" href="${largeImageURL}">
+        return `<div class="photo-card"><a class="gallery__link" href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
@@ -67,7 +45,10 @@ function createMarkup(
       <b>Downloads:${downloads}</b>
     </p>
   </div>
-</div> `;
+</div>`;
+      }
+    )
+    .join('');
 }
 ///////////////////////////////////////////////
-export { fetchGet, createElForDoom };
+export { fetchGet, createMarkup };
