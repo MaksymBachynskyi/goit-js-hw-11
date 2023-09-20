@@ -4,6 +4,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
 
 /////////////////////////START//////////////////////
+
 let modal = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: '250ms',
@@ -27,10 +28,13 @@ async function onSubmitSearch(evnt) {
     evnt.currentTarget.reset();
     return;
   }
+
   try {
     const get = await fetchGet(input, page);
     galleryEl.insertAdjacentHTML('beforeend', createMarkup(get.hits));
+
     totalImg = get.totalHits;
+
     if (!get.totalHits) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -44,18 +48,22 @@ async function onSubmitSearch(evnt) {
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
+  } finally {
+    evnt.target.reset();
   }
 }
 /////////////////////////////////LOADMORE//////////////////////
 btnLoadMore.addEventListener('click', onLoadMore);
+
 async function onLoadMore() {
   page += 1;
+
   btnLoadMore.classList.add('isHidden');
   try {
     const get = await fetchGet(input, page);
     galleryEl.insertAdjacentHTML('beforeend', createMarkup(get.hits));
-    totalImg -= 40;
 
+    totalImg -= 40;
     modal.refresh();
     if (totalImg > 0) {
       Notiflix.Notify.success(`Hooray! We found ${totalImg} images.`);
